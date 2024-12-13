@@ -1,0 +1,99 @@
+<%- include('partials/header'); -%>
+
+
+  <div class=" board">
+    <div class="column" data-column="todo">
+      <div class="column-header">To Do</div>
+      <div class="dropzone">
+        <% tasks.forEach(task=> { %>
+          <% if (task.status=="to do" && user.email == task.assignedUser || user.role == "Admin") { %>
+            <div class="card" draggable="true">
+              <h3>
+                Title: <%= task.title %>
+              </h3>
+              <p>
+                Priority: <%= task.priority %>
+              </p>
+              <p>
+                Description: <%= task.description %>
+              </p>
+              <% console.log(task.assignedUser);
+               %>
+              <p style="font-weight: bold;">
+                User: <%= task.assignedUser %>
+              </p>
+              <p>
+                <%= task.dueDateFormatted %>
+              </p>
+            </div>
+            <% } %>
+              <% }) %>
+      </div>
+    </div>
+
+    <div class="column" data-column="in-progress">
+      <div class="column-header">In Progress</div>
+      <div class="dropzone">
+
+      </div>
+    </div>
+
+    <div class="column" data-column="done">
+      <div class="column-header">Done</div>
+      <div class="dropzone">
+        <div class="card" draggable="true">
+          <h3>title</h3>
+          <p>status</p>
+          <p>High || Middle || Low</p>
+          <p>description</p>
+          <p>assigned user</p>
+          <p>due data</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    let isAdmin = true;
+
+
+
+    const cards = document.querySelectorAll('.card');
+    const dropzones = document.querySelectorAll('.dropzone');
+    const toggleAdminButton = document.getElementById('toggleAdmin');
+    const addCardButton = document.getElementById('addCard');
+
+
+
+    function enableCardDragging(card) {
+      card.addEventListener('dragstart', () => {
+        card.classList.add('dragging');
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+      });
+    }
+
+    cards.forEach(enableCardDragging);
+
+    dropzones.forEach(dropzone => {
+      dropzone.addEventListener('dragover', event => {
+        event.preventDefault();
+        const draggingCard = document.querySelector('.dragging');
+        const sourceColumn = draggingCard.parentElement.parentElement.getAttribute('data-column');
+        const targetColumn = dropzone.parentElement.getAttribute('data-column');
+        if (isAdmin ||
+          (sourceColumn === 'todo' && targetColumn === 'in-progress') ||
+          (sourceColumn === 'in-progress' && targetColumn === 'done')) {
+          dropzone.appendChild(draggingCard);
+        }
+      });
+    });
+  </script>
+  </body>
+
+  </html>
+
+  <%- include('partials/footer'); -%>

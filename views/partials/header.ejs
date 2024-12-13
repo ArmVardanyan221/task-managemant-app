@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management Tool</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+
+<body>
+  <nav>
+    
+    <h1><a href="/">Home Page</a></h1>
+    <% if (user && user.role === "Admin") { %>
+     <h3><a style="padding: 8px; background-color: aquamarine; border-radius: 16px;"  href="/createtask">Create Task</a></h3>
+    <% } %>
+    <ul>
+      <% if (user) { %>
+        <li id="role" value="<% user.role %>">Role: <%= user.role %></li>
+        <li style="color: rgb(23, 180, 23); font-weight: bold;">Welcome, <%= user.email %>
+        </li>
+        <li><a href="/logout">Log Out</a></li>
+
+        <% } else { %>
+          <li><a href="/login">Log In</a></li>
+          <li><a class="btn" href="/signup">sign Up</a></li>
+          <% } %>
+    </ul>
+  </nav>
