@@ -33,13 +33,13 @@ const checkUser = (req, res, next) => {
       } else {
         // console.log("console.log from checkUser: Decoded token: ", decodedToken);
         let user = await User.findById(decodedToken.id);
-        res.locals.user = user;  
+        res.locals.user = user;
+        res.user = user;  
         // console.log("CheckUser: ", res.locals);
         next();
       }
     }) 
-  }
-  else {
+  } else {
     res.locals.user = null
     next()
   }
@@ -53,5 +53,24 @@ const getNormallyDate = (task) => {
   });
 }
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();  
+    req.users = users;  
+    res.locals.users = users;
 
-module.exports = { requireAuth, checkUser, getNormallyDate }
+    next(); 
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch users', error: error.message });
+  }
+};
+
+const  isAdmin = (req, res, next) => {
+  if (res.user && res.user.role === 'Admin') {
+      return next();
+  }
+  res.status(403).json({ message: 'Forbidden' });
+}
+
+
+module.exports = { requireAuth, checkUser, getNormallyDate, getAllUsers, isAdmin }

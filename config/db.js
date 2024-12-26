@@ -1,10 +1,8 @@
 const mongoose = require("mongoose")
-
-const dbURI = 'mongodb://localhost:27017/new';
-
+require("dotenv").config()
 
 const dbConnect = async () => {
-  mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then((result) => {
       console.log("db connected");
       
@@ -14,5 +12,4 @@ const dbConnect = async () => {
 
 dbConnect() 
 
-// exports.default = mongoose
 module.exports.mongoose;

@@ -1,19 +1,22 @@
 const Router = require("express")
-const authController = require("../controllers/authController")
+const { signup_get, signup_post, login_get, logout_get, login_post } = require("../controllers/authController")
 const { checkUser } = require("../middlewares/authMiddleware")
 const Task = require("../models/Task");
 const router = Router();
 
 router.get("*", checkUser);
-router.get('/', (req, res) => res.render('home'));
+router.get('/', (req, res) => {
+    return res.render('home')
+});
 
 
 
-router.get("/signup", authController.signup_get);
-router.post("/signup", authController.signup_post);
-router.get("/login", authController.login_get);
-router.post("/login", authController.login_post);
-router.get("/logout", authController.logout_get);
+router.get("/signup", signup_get);
+router.get("/login", login_get);
+router.get("/logout", logout_get);
+
+router.post("/signup", signup_post);
+router.post("/login", login_post);
 
 // routes
 

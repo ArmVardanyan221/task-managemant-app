@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script defer src="/jsFiles/admin-users.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="/cssFiles/adminUsers.css">
+</head>
+
+<body>
+
+    <h1>Manage Users</h1>
+
+    <h3>Add New User</h3>
+    <form id="addUserForm">
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+        </select>
+
+        <button type="submit" class="btn add">Add User</button>
+        <div class="error" id="error"></div>
+    </form>
+
+    <h3>Existing Users</h3>
+    <table id="userListTable">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user=> { %>
+                <tr>
+                    <td>
+                        <%= user.email %>
+                    </td>
+                    <td>
+                        <%= user.role %>
+                    </td>
+                    <td>
+                        <button class="btn delete" data-id="<%- user._id %>">Delete</button>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+    
+
+</body>
+
+</html>

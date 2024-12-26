@@ -23,16 +23,16 @@ const userSchema = new mongoose.Schema({
   }
 })
 
-userSchema.post('save', function (doc, next) {
-  console.log('new user after created & saved', doc);
+// userSchema.post('save', function (doc, next) {
+//   console.log('new user after created & saved', doc);
 
-  next();
-})
+//   next();
+// })
 
 userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt)
-  console.log('user about to be created & saved', this);
+  // console.log('user about to be created & saved', this);
   next();
 })
 

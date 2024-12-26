@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    // required: true,
+    default: "to do",
   },
   priority: {
     type: String,
